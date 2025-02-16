@@ -36,7 +36,13 @@ impl Game{
         if is_key_down(KeyCode::W) {dv.y += -1.;}
         if is_key_down(KeyCode::A) {dv.x += -1.;}
         if is_key_down(KeyCode::D) {dv.x += 1.;}
-        self.ship.velocity += dv.normalize_or_zero() * accel;
+        dv = dv.normalize_or_zero() * accel;
+        let dvx = dv.x;
+        let dvy = dv.y;
+        let angle = self.ship.angle.to_radians();
+        dv.x = angle.cos() * dvx + angle.sin() * dvy;
+        dv.y = -angle.sin() * dvx + angle.cos() * dvy;
+        self.ship.velocity += dv;
         self.ship.pos += self.ship.velocity * dt;
     }
     pub fn draw(&self){
