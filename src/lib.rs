@@ -1,4 +1,7 @@
+use std::thread::ThreadId;
+
 use macroquad::prelude::*;
+use gamepads::Gamepads;
 
 #[derive(Default)]
 struct Ship{
@@ -11,6 +14,7 @@ pub struct Game{
     pub is_running: bool,
     ship: Ship,
     render_target: RenderTarget,
+    gamepads: Gamepads,
 }
 
 impl Game{
@@ -22,6 +26,7 @@ impl Game{
             is_running: true,
             ship: Ship{..Default::default()},
             render_target,
+            gamepads: Gamepads::new(),
         }
     }
     pub fn update(&mut self, dt: f32){
@@ -29,6 +34,11 @@ impl Game{
         if is_key_pressed(KeyCode::Escape){self.is_running = false;}
         let accel = 0.01;
         let mut dv = vec2(0.0, 0.0);
+        self.gamepads.poll();
+        for gamepad in self.gamepads.all(){
+            dv.x = gamepad.left_stick_x();
+            dv.y = gamepad.left_stick_y();
+        }
         let turn_speed = 180.;
         if is_key_down(KeyCode::Q) {self.ship.angle -= turn_speed * dt;}
         if is_key_down(KeyCode::E) {self.ship.angle += turn_speed * dt;}
