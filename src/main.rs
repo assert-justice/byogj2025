@@ -9,7 +9,9 @@ use byogj2025::Game;
 fn window_conf() -> Conf {
     Conf {
         window_title: "Window Conf".to_owned(),
-        fullscreen: true,
+        // window_width: 640,
+        // window_height: 360,
+        // fullscreen: true,
         ..Default::default()
     }
 }
