@@ -1,10 +1,12 @@
 use macroquad::prelude::*;
 
+#[derive(Clone)]
 pub struct Planet{
     pub pos: Vec2,
     pub code: u8,
     pub tether: String,
     pub color: Color,
+    pub mass: f32,
 }
 
 impl Planet{
